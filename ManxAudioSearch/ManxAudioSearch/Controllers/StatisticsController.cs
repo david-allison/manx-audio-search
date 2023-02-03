@@ -17,7 +17,7 @@ public class StatisticsController
 
     [HttpGet]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
-    public Statistics Get() => new(_audioService.GetWords().Count(), _audioService.Files.Count);
+    public Statistics Get() => new(_audioService.Words.Count(), _audioService.Files.Count);
 }
 
 [SuppressMessage("ReSharper", "NotAccessedPositionalProperty.Global")]

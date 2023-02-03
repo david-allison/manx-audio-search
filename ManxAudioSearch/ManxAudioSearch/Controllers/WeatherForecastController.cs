@@ -20,7 +20,7 @@ public class WeatherForecastController : ControllerBase
     {
         Phrase ToPhrase(AudioFile file) => new(file.FileNameNoExtension, file.Transcription);
         var words = _audioService
-            .GetWords()
+            .Words
             .Select(word => 
                 new
                 {

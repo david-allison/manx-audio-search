@@ -8,16 +8,21 @@ public class AudioService
 {
     private readonly List<AudioFile> _audioFiles;
 
-    private AudioService(List<AudioFile> audioFiles)
-    {
-        _audioFiles = audioFiles;
-    }
+
 
     private static readonly JsonSerializerOptions JsonSerializerOptions = new()
     {
         PropertyNameCaseInsensitive = true
     };
 
+    private readonly IList<string> _words;
+
+    private AudioService(List<AudioFile> audioFiles)
+    {
+        _audioFiles = audioFiles;
+        _words = GetWords();
+    }
+    
     public List<AudioFile> Files => _audioFiles.ToList();
 
     public static AudioService CreateInstance()
@@ -100,27 +105,22 @@ public class AudioService
         
         // spainey
         // shooylaghan
-        
         return new AudioService(files);
     }
 
-    public IEnumerable<string> GetWords()
-    {
-        var audioFiles = _audioFiles;
+    public IEnumerable<string> Words => _words;
 
-        return audioFiles.SelectMany(x => x.Words).Select(x => x.ToLowerInvariant()
-                .Replace("?", "") // As craad ta moirrey? 
-                .Replace(",", "") // Tey, Pheddyr
-            )
-            .Distinct().OrderBy(x => x);
-    }
 
-    public List<AudioFile> GetPhrases(string word)
-    {
-        return _audioFiles.Where(x => x.Words.Contains(word, CaseInsensitiveWordComparer.Default)).ToList();
-    }
+    public List<AudioFile> GetPhrases(string word) => _audioFiles.Where(x => x.Words.Contains(word, CaseInsensitiveWordComparer.Default)).ToList();
 
     public bool ContainsFileNamed(string name) => Files.Any(x => x.FileNameNoExtension == name);
+    
+    private IList<string> GetWords() =>
+        _audioFiles.SelectMany(x => x.Words).Select(x => x.ToLowerInvariant()
+                    .Replace("?", "") // As craad ta moirrey? 
+                    .Replace(",", "") // Tey, Pheddyr
+            )
+            .Distinct().OrderBy(x => x).ToList();
 }
 
 // non-null not initialised
