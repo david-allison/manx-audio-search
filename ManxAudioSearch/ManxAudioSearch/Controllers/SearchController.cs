@@ -8,14 +8,16 @@ namespace ManxAudioSearch.Controllers;
 public class SearchController
 {
     private readonly TranslationService _translationService;
+    private readonly AudioService _audioService;
 
-    public SearchController(TranslationService translationService)
+    public SearchController(TranslationService translationService, AudioService audioService)
     {
         _translationService = translationService;
+        _audioService = audioService;
     }
     
     [HttpGet("{query}")]
-    public IEnumerable<string> Search(string query, [FromQuery(Name = "manx")] bool isManx, [FromQuery(Name = "english")] bool isEnglish)
+    public SearchResultList Search(string query, [FromQuery(Name = "manx")] bool isManx, [FromQuery(Name = "english")] bool isEnglish)
     {
         if (!isEnglish && !isManx)
         {
@@ -27,9 +29,16 @@ public class SearchController
             .Concat(isEnglish ? _translationService.ToManx(query) : Array.Empty<string>());
 
 
-        return manxWords;
+        var results = manxWords.Select(x =>
+            new {
+                Word = x,
+                Files = _audioService.GetFilesContainingWord(x)
+            })
+            .SelectMany(result => result.Files.Select(x => new SearchResult(result.Word, x.FileNameNoExtension, x.Transcription)))
+            .ToList();
+        return new SearchResultList(results);
     }
 }
 
-public record SearchResult();
-public record SearchResultList(SearchResult[] Results);
+public record SearchResult(string Word, string FileName, string Transcription);
+public record SearchResultList(List<SearchResult> Results);

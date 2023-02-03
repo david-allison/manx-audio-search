@@ -25,7 +25,7 @@ public class WeatherForecastController : ControllerBase
                 new
                 {
                     Word = word, 
-                    Phrases = _audioService.GetPhrases(word).Select(ToPhrase)
+                    Phrases = _audioService.GetFilesContainingWord(word).Select(ToPhrase)
                 }).ToList();
         return words;
     }

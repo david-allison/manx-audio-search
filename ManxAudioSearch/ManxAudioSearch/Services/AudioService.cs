@@ -111,7 +111,7 @@ public class AudioService
     public IEnumerable<string> Words => _words;
 
 
-    public List<AudioFile> GetPhrases(string word) => _audioFiles.Where(x => x.Words.Contains(word, CaseInsensitiveWordComparer.Default)).ToList();
+    public List<AudioFile> GetFilesContainingWord(string word) => _audioFiles.Where(x => x.Words.Contains(word, CaseInsensitiveWordComparer.Default)).ToList();
 
     public bool ContainsFileNamed(string name) => Files.Any(x => x.FileNameNoExtension == name);
     
