@@ -32,4 +32,9 @@ public class TranslationService
         var englishToManxDictionary = ToCaseInsensitiveDict(english);
         return new TranslationService(manxToEnglishDictionary, englishToManxDictionary);
     }
+
+    public IEnumerable<string> ToManx(string query)
+    {
+        return _englishToManxDictionary.GetValueOrDefault(query, new List<string>());
+    }
 }
