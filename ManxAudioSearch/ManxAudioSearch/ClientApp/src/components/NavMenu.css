@@ -1,9 +1,4 @@
-﻿a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
-}
-
+﻿
 html {
   font-size: 14px;
 }
@@ -15,4 +10,21 @@ html {
 
 .box-shadow {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+/** TODO: figure this out properly*/
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+  color: white !important;
+  font-size: x-large !important;
+}
+
+a.nav-link {
+  color: white !important;
+}
+
+header {
+  background-color: #4b778c;
 }
