@@ -1,0 +1,3 @@
+[submodule "ManxAudioSearch/ManxAudioSearch/Resources/phil-kelly-manx-dictionary-data"]
+	path = ManxAudioSearch/ManxAudioSearch/Resources/phil-kelly-manx-dictionary-data
+	url = https://github.com/david-allison/phil-kelly-manx-dictionary-data.git

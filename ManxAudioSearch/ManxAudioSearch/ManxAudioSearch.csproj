@@ -26,6 +26,7 @@
 
     <ItemGroup>
       <Folder Include="ClientApp\public\audio" />
+      <Folder Include="Resources" />
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

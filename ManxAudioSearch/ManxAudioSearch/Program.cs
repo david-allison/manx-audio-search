@@ -5,6 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddSingleton<AudioService>(_ => AudioService.CreateInstance());
+builder.Services.AddSingleton<TranslationService>(_ => TranslationService.CreateInstance());
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
