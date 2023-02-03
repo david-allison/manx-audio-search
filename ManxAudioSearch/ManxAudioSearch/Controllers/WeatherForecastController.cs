@@ -1,4 +1,5 @@
-﻿using ManxAudioSearch.Services;
+﻿using System.Diagnostics.CodeAnalysis;
+using ManxAudioSearch.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ManxAudioSearch.Controllers;
@@ -17,8 +18,18 @@ public class WeatherForecastController : ControllerBase
     [HttpGet]
     public IEnumerable<object> Get()
     {
-        var words = _audioService.GetWords().Select(x => new { Word = x }).ToList();
-        Console.WriteLine(words.Count);
+        Phrase ToPhrase(AudioFile file) => new(file.FileName, file.Transcription);
+        var words = _audioService
+            .GetWords()
+            .Select(word => 
+                new
+                {
+                    Word = word, 
+                    Phrases = _audioService.GetPhrases(word).Select(ToPhrase)
+                }).ToList();
         return words;
     }
 }
+
+[SuppressMessage("ReSharper", "NotAccessedPositionalProperty.Global")]
+internal record Phrase(string FileName, string Transcription);

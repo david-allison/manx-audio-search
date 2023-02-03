@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {AudioPlayer} from "./AudioPlayer";
 
 export class FetchData extends Component {
   static displayName = FetchData.name;
@@ -24,6 +25,11 @@ export class FetchData extends Component {
           {forecasts.map(forecast =>
             <tr key={forecast.date}>
               <td>{forecast.word}</td>
+              <td>{forecast.phrases.slice(0, 5).map(x => <>
+                  {x.transcription}
+                  <AudioPlayer fileName={x.fileName}/>
+                  <br/>
+              </>)}</td>
             </tr>
           )}
         </tbody>

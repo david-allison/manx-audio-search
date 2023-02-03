@@ -49,13 +49,16 @@ public class AudioService
             var title = Path.GetFileNameWithoutExtension(fle);
             var removeSuffix = Regex.Replace(title, @" \(\d+\)", "");
             var removeSuffixNoSpace = Regex.Replace(removeSuffix, @"([^\d])\d+", "$1");
-            return new[] { removeSuffixNoSpace };
+            return removeSuffixNoSpace.Split(" ", StringSplitOptions.RemoveEmptyEntries);
         }
         var files = validPaths.OrderByDescending(x => x).Select(x => new AudioFile
         {
-            Title = x.filePath,
-            Words = x.metadata.Transcription?.Split(" ") ?? ExtractWordsFromPath(x.filePath)
-        }).ToList();
+            FilePath = x.filePath,
+            Transcription = x.metadata.Transcription ?? string.Join(" ", ExtractWordsFromPath(x.filePath)),
+            Words = x.metadata.Transcription?.Split(" ", StringSplitOptions.RemoveEmptyEntries) ?? ExtractWordsFromPath(x.filePath)
+        })
+            .Where(x => !x.FilePath.ToLowerInvariant().StartsWith("lessoon") || x.FilePath.ToLowerInvariant() == "lesson.mp3" )
+            .ToList();
 
         // TODO: blah heh -> lukewarm, two words
         // jin nagh -> jinnagh
@@ -68,17 +71,51 @@ public class AudioService
         // echooat
         // enmyssitjeeal
         // erash or er ash?
+        // foddeynyshareansherbee
+        // hieehmaghtammylterdyhenney
+        // 'mayd' - suffix
+        // gollanegeay
+        // sycheeill
+        // lhergyrhennee
+        // lhergyruy2
+        // lumlane
+        // charrlaadee
+        // aallglen
+        // mwyllindooaah
+        // meinnsaue
+        // nastaghynnollick
+        // nydoodeeyn
+        // teeecehanjeeal
+        // tehcloiescosolagh
+        // velbigginynerbeeeconnee
+        // velramsleiher
+        // er yn charr laa dee
+        // saggart - checking with Rob
+        
+        // scosoylagh - check all audio files with this in => s'cosoylagh
+        // lumlane => lum-lane
+        // keyriojey -> key riojey (ice cream)
+        
+        // spainey
+        // shooylaghan
+        
         return new AudioService(files);
     }
 
     public IEnumerable<string> GetWords()
     {
-        // ensure we don't need to refresh the app while testing
-        var audioFiles = CreateInstance()._audioFiles;
+        var audioFiles = _audioFiles;
 
         return audioFiles.SelectMany(x => x.Words).Select(x => x.ToLowerInvariant()
-            .Replace("?", "")) //As craad ta moirrey? 
+                .Replace("?", "") // As craad ta moirrey? 
+                .Replace(",", "") // Tey, Pheddyr
+            )
             .Distinct().OrderBy(x => x);
+    }
+
+    public List<AudioFile> GetPhrases(string word)
+    {
+        return _audioFiles.Where(x => x.Words.Contains(word, CaseInsensitiveWordComparer.Default)).ToList();
     }
 }
 
@@ -89,7 +126,9 @@ public class AudioService
 [SuppressMessage("ReSharper", "UnusedMember.Global")]
 public class AudioFile
 {
-    public string Title { get; set; }
+    public string FilePath { get; set; }
+    public string FileName => Path.GetFileNameWithoutExtension(FilePath);
+    public string Transcription { get; set; }
     public string[] Words { get; set; }
     public bool IsKnownData { get; set; }
 }
