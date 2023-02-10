@@ -40,7 +40,7 @@ public class SearchController
                     .OrderBy(x => x.Transcription.Length).ToArray()))
             .ToList();
 
-        // if we have results, don't send "river", which has 0 to the client
+        // if we have results, don't send "river" (0 results) to the client
         if (results.SelectMany(x => x.Files).Any())
         {
             results = results.Where(x => x.Files.Length > 0).ToList();
