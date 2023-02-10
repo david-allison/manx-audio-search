@@ -40,6 +40,8 @@ public class TranslationService
 
     public IEnumerable<string> ToEnglish(string query)
     {
-        return _manxToEnglishDictionary.GetValueOrDefault(query, new List<string>());
+        return Utils.GetManxAlternates(query)
+            .SelectMany(word => _manxToEnglishDictionary.GetValueOrDefault(word, new List<string>()))
+            .Distinct();
     }
 }

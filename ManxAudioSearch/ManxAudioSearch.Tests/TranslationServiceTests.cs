@@ -15,7 +15,6 @@ public class BasicTests
     }
 
     [Test]
-    [Ignore("Not implemented")]
     public void Translation_Works()
     {
         var client = _factory.Services.GetService<TranslationService>()!;

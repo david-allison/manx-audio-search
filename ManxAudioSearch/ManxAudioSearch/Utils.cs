@@ -13,4 +13,19 @@ public class Utils
 
         return Path.Combine(path);
     }
+    
+    public static IEnumerable<string> GetManxAlternates(string query)
+    {
+        yield return query; // "meoir shee": definition, but no results
+        if (query.Contains(' '))
+        {
+            yield return query.Replace(" ", "-"); // "meoir-shee": no definition, but many results
+            yield return query.Replace(" ", "");  // "meoirshee":  no definition, 1 result
+        }
+        if (query.Contains($"-"))
+        {
+            yield return query.Replace("-", " "); //
+            yield return query.Replace("-", "");  // 
+        }
+    }
 }
