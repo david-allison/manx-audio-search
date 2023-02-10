@@ -28,7 +28,7 @@ public class AudioService
     public static AudioService CreateInstance()
     {
         // requires `dotnet publish`
-        var audioFilesDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ClientApp", "public", "audio");
+        var audioFilesDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "audio");
         
         var audioPaths = Directory.GetFiles(audioFilesDir, "*.mp3", SearchOption.AllDirectories).ToList();
 
