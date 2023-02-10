@@ -48,6 +48,6 @@ export const AudioPlayer =  React.forwardRef((props, forwardRef) => {
         {clicked && <audio preload={"metadata"} ref={ref} key={props.fileName}>
             <source src={`/audio/${props.fileName}`}/>
         </audio>}
-        <img style={{height: "1.3em", cursor: "pointer"}} src={require("../assets/images/volume-high.png")} onClick={onClick}/>
+        <img style={{ cursor: "pointer"}} className={props.cssClass} src={require("../assets/images/volume-high.png")} onClick={onClick}/>
     </>)
 })

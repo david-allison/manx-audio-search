@@ -11,3 +11,116 @@ h2 {
 input {
     width: 100%;
 }
+
+.wordContainer {
+    padding-top: 1em;
+}
+
+.wordHeader {
+    border: 1px solid #C1D2D7;
+    border-bottom-width: 0px;
+    background-color: #83A6B0;
+    padding: 0.5em;
+    margin-bottom: 0px;
+    color: white;
+    font-weight: 400;
+    
+    
+    border-top-left-radius: 1em;
+    border-top-right-radius: 1em;
+}
+
+/** allows for :before to work */
+.wordLine {
+    position: relative;
+    margin-top: 0.5em;
+}
+.wordLine:before
+{
+    content: ' ';
+    display: block;
+    position: absolute;
+    bottom: 0px;
+    left: -5px;
+    width: calc(100% - 10px);
+    border-bottom: 1px solid #C1D2D7;
+}
+
+.audioContainer {
+    padding-left: 20px;
+    border: 1px solid #C1D2D7;
+    border-top-width: 0px;
+    background: white;
+    border-bottom-left-radius: 1em;
+    border-bottom-right-radius: 1em;
+}
+
+.headerContainer {
+    color: white;
+    padding: 1em 1em 0.5em;
+}
+.headerContainer h1 {
+    font-weight: 400;
+}
+
+.searchContainer {
+    padding: 0 1em 1em;
+}
+
+.results {
+    padding-bottom: 1em;
+}
+
+body {
+    background-color: #C1D2D7;
+    overflow-y: scroll;
+}
+
+.randomPhrases {
+    display: block;
+    padding-top: 0.5em;
+    font-size: x-large;
+    text-align: center;
+}
+
+input {
+    border-radius: 0.6rem;
+    padding-left: 8px;
+}
+
+select {
+    border-right: 4px solid transparent;
+    padding-left: 0.4em !important;
+}
+
+select, button {
+    padding: 0.3em;
+    padding-right: 0.9em;
+    padding-left: 0.9em;
+    border-radius: 0.3rem;
+}
+
+/** Audio Container */
+
+.audio-container-box {
+    display: flex;
+}
+
+.home-audio {
+    height: 100px;
+    padding: 10px;
+    /** change color: https://codepen.io/sosuke/pen/Pjoqqp . Note:  filter is not stable */
+    /** #83A6B0 */
+    filter: invert(69%) sepia(13%) saturate(561%) hue-rotate(147deg) brightness(90%) contrast(92%);
+}
+
+.home-audio:hover {
+    /** change color: https://codepen.io/sosuke/pen/Pjoqqp */
+    /** #074C61 */
+    filter: invert(20%) sepia(97%) saturate(478%) hue-rotate(149deg) brightness(96%) contrast(96%);
+}
+
+.topContainer {
+    background-color: #074C61;
+    border-radius: 1em;
+}

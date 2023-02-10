@@ -54,36 +54,54 @@ export const Home = () => {
     }
     
     const filesToNearest10 = n => (Math.floor((n- 1) / 10) ) * 10
+    
+    let placeHolder = "Search a word in Manx or English"
+    if (searchType === "en") {
+        placeHolder = "Search a word in English"
+    } else if (searchType === "gv") {
+        placeHolder = "Search a word in Manx"
+    }
+    
+    
     return (
         <div>
-            <h1>Manx Audio Corpus</h1>
-            <h2>Improve your speech with <strong>over {filesToNearest10(statistics.numberOfFiles)}</strong> Manx audio files</h2>
-             Search a word in Manx or English
-            <div style={{display: "flex"}}>
-                <select name="selectedLanguage" onChange={selectedLanguageChange} style={{marginRight: 10}}>
-                    <option value="gven">Manx & English</option>
-                    <option value="gv">Manx</option>
-                    <option value="en">English</option>
-                </select>
-                <input style={{flex: 1}} type={"search"} onKeyDown={x => {
-                    if (x.key === "Enter") {
-                        onSearch()
-                    }
-                }} onInput={onSearchTextChange} />
-                <button style={{marginLeft: 10}} onClick={onSearch}>Search</button>
-            </div>
-            <div>
-                {!results && <>Or practice your Manx with <a href={"/random"}>10 random phrases</a></>}
-            </div>
-            { results && results.results && results.results.map(x => 
-                <>
-                <h3>{x.word} — {x.translations.join("; ")}</h3>
-                    <div style={{paddingLeft: 20}}>
-                    {
-                        x.files.map(file => <AudioContainer file={file}/>)
-                    }
+            <div className={"topContainer"}>
+                <div className={"headerContainer"}>
+                    <h1>Get speaking with <strong>over {filesToNearest10(statistics.numberOfFiles)}</strong> Manx audio files</h1>
+                </div>
+                <div className={"searchContainer"}>
+                    <div style={{display: "flex"}}>
+                        <select name="selectedLanguage" onChange={selectedLanguageChange} style={{marginRight: 10}}>
+                            <option value="gven">Manx & English</option>
+                            <option value="gv">Manx</option>
+                            <option value="en">English</option>
+                        </select>
+                        <input style={{flex: 1}} type={"search"} onKeyDown={x => {
+                            if (x.key === "Enter") {
+                                onSearch()
+                            }
+                        }} onInput={onSearchTextChange} placeholder={placeHolder} />
+                        <button style={{marginLeft: 10}} onClick={onSearch}>Search</button>
                     </div>
-                </>)}
+                </div>
+            </div>
+                
+            <div className={"results"}>
+                {/*<div>*/}
+                {/*    {(!results || !results.results) && <span className={"randomPhrases"}>Or practice your Manx with <a href={"/random"}>10 random phrases</a></span>}*/}
+                {/*</div>*/}
+                { results && results.results && results.results.map(x => 
+                    <div className={"wordContainer"}>
+                        <h3 className={"wordHeader"}>{x.word} — {x.translations.join("; ")}</h3>
+                        
+                        <div className={"audioContainer"}>
+                        {
+                            x.files.map(file => <><AudioContainer file={file}/><div className={"wordLine"}/></>)
+                        }
+                        </div>
+                    </div>)
+                }
+            </div>
         </div>
     );
 }
@@ -94,11 +112,13 @@ const AudioContainer = (props) => {
     const onClick = () => {
         ref.current.play()
     }
-    return <>
-        <strong onClick={onClick} style={{cursor: "pointer"}}>{props.file.transcription}</strong>
-        <AudioPlayer fileName={props.file.fileName} ref={ref}/>
-        <div><em>Unknown Gender</em></div>
-        <div><em>L2 Manx Speaker</em></div>
-        <div/>
-    </>
+    return <div className={"audio-container-box"}>
+        <div style={{flexShrink: 1}}>
+            <AudioPlayer cssClass={"home-audio"} fileName={props.file.fileName} ref={ref}/>
+        </div>
+        <div style={{paddingLeft: 5, paddingTop: 10}}>
+            <strong onClick={onClick} style={{cursor: "pointer"}}>{props.file.transcription}</strong>
+            <div><em>Pronunciation unverified</em></div>
+        </div>
+    </div>
 }
