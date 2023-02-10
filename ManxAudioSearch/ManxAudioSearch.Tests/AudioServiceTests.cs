@@ -22,5 +22,24 @@ public class AudioServiceTests
         var badResults = service.GetFilesContainingWord("hello warld");
         Assert.That(results, Has.Count.EqualTo(0));
     }
+    
+    [Test]
+    public void SearchNotFound()
+    {
+        var service = new AudioService(new List<AudioFile>
+        {
+            new()
+            {
+                Transcription = "hello",
+            }
+        });
+
+        var results = service.GetFilesContainingWord("hello world");
+        Assert.That(results, Has.Count.EqualTo(0));
+        
+        
+        var noMatch = service.GetFilesContainingWord("world");
+        Assert.That(noMatch, Has.Count.EqualTo(0));
+    }
 
 }

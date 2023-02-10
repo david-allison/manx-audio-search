@@ -127,7 +127,7 @@ public class AudioService
             bool failed = false;
             for (int i = 0; i < wordsToFind.Length; i++)
             {
-                if (wordsToFind.Length <= i + index || wordsToFind[i + index] != wordList[i])
+                if (wordList.Length <= i + index || wordsToFind[i ] != wordList[i + index])
                 {
                     failed = true;
                 }
