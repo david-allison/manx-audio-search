@@ -26,13 +26,14 @@ public class SearchController
         }
 
         var manxWords = Array.Empty<string>()
-            .Concat(isManx ? new[] { query } : Array.Empty<string>())
+            .Concat(isManx ? Utils.GetManxAlternates(query) : Array.Empty<string>())
             .Concat(isEnglish ? _translationService.ToManx(query) : Array.Empty<string>())
             .Distinct();
 
 
         var results = manxWords
-            .ToDictionary(x => x, x => _audioService.GetFilesContainingWord(x))
+            .ToLookup(x => Utils.NormaliseAlternate(x, query), x => _audioService.GetFilesContainingWord(x))
+            .ToDictionary(x => x.Key, x => x.SelectMany(u => u).ToList())
             .Select(x => new SearchResult(x.Key,
                 _translationService.ToEnglish(x.Key).ToArray(),
                 x.Value.Select(z => new AudioFile(z.FileNameNoExtension, z.Transcription)).ToArray()))

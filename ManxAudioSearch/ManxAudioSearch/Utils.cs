@@ -28,4 +28,30 @@ public class Utils
             yield return query.Replace("-", "");  // 
         }
     }
+
+    public static string NormaliseAlternate(string s, string query)
+    {
+        if (s.Replace(" ", "") == query)
+        {
+            return query;
+        }
+        if (s.Replace(" ", "-") == query)
+        {
+            return query;
+        }
+        if (s.Replace("-", " ") == query)
+        {
+            return query;
+        }
+        if (s.Replace("-", "") == query)
+        {
+            return query;
+        }
+        if (query.Replace(" ", "") == s || query.Replace("-", "") == s)
+        {
+            return query;
+        } 
+
+        return s;
+    }
 }
