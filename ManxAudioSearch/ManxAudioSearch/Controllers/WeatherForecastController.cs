@@ -18,7 +18,7 @@ public class WeatherForecastController : ControllerBase
     [HttpGet]
     public IEnumerable<object> Get()
     {
-        Phrase ToPhrase(AudioFile file) => new(file.FileNameNoExtension, file.Transcription);
+        Phrase ToPhrase(Services.AudioFile file) => new(file.FileNameNoExtension, file.Transcription);
         var words = _audioService
             .Words
             .Select(word => 

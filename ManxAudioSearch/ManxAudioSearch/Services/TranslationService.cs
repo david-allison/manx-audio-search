@@ -37,4 +37,9 @@ public class TranslationService
     {
         return _englishToManxDictionary.GetValueOrDefault(query, new List<string>());
     }
+
+    public IEnumerable<string> ToEnglish(string query)
+    {
+        return _manxToEnglishDictionary.GetValueOrDefault(query, new List<string>());
+    }
 }

@@ -1,3 +1,4 @@
+using System.Reflection;
 using ManxAudioSearch.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,19 +27,28 @@ public class SearchController
 
         var manxWords = Array.Empty<string>()
             .Concat(isManx ? new[] { query } : Array.Empty<string>())
-            .Concat(isEnglish ? _translationService.ToManx(query) : Array.Empty<string>());
+            .Concat(isEnglish ? _translationService.ToManx(query) : Array.Empty<string>())
+            .Distinct();
 
 
-        var results = manxWords.Select(x =>
-            new {
-                Word = x,
-                Files = _audioService.GetFilesContainingWord(x)
-            })
-            .SelectMany(result => result.Files.Select(x => new SearchResult(result.Word, x.FileNameNoExtension, x.Transcription)))
+        var results = manxWords
+            .ToDictionary(x => x, x => _audioService.GetFilesContainingWord(x))
+            .Select(x => new SearchResult(x.Key,
+                _translationService.ToEnglish(x.Key).ToArray(),
+                x.Value.Select(z => new AudioFile(z.FileNameNoExtension, z.Transcription)).ToArray()))
             .ToList();
+
+        // if we have results, don't send "river", which has 0 to the client
+        if (results.SelectMany(x => x.Files).Any())
+        {
+            results = results.Where(x => x.Files.Length > 0).ToList();
+            // TODO: Order so if we get an exact match it comes first
+        }
+                
         return new SearchResultList(results);
     }
 }
 
-public record SearchResult(string Word, string FileName, string Transcription);
+public record AudioFile(string FileName, string Transcription);
+public record SearchResult(string Word, string[] Translations, AudioFile[] Files);
 public record SearchResultList(List<SearchResult> Results);

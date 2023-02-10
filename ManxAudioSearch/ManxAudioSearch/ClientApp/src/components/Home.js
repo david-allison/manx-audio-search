@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import "./Home.css"
 import {AudioPlayer} from "./AudioPlayer";
 export const Home = () => {
@@ -77,13 +77,28 @@ export const Home = () => {
             </div>
             { results && results.results && results.results.map(x => 
                 <>
-                <h3 style={x.word === x.transcription ? {display: "inline-block"} : {}}>{x.word}</h3>
-                    {x.word !== x.transcription && <strong>{x.transcription}</strong>}
-                    <AudioPlayer fileName={x.fileName}/>
-                    <div><em>Unknown Gender</em></div>
-                    <div><em>L2 Manx Speaker</em></div>
-                    <div/>
+                <h3>{x.word} — {x.translations.join("; ")}</h3>
+                    <div style={{paddingLeft: 20}}>
+                    {
+                        x.files.map(file => <AudioContainer file={file}/>)
+                    }
+                    </div>
                 </>)}
         </div>
     );
+}
+
+const AudioContainer = (props) => {
+    const ref = useRef()
+    
+    const onClick = () => {
+        ref.current.play()
+    }
+    return <>
+        <strong onClick={onClick} style={{cursor: "pointer"}}>{props.file.transcription}</strong>
+        <AudioPlayer fileName={props.file.fileName} ref={ref}/>
+        <div><em>Unknown Gender</em></div>
+        <div><em>L2 Manx Speaker</em></div>
+        <div/>
+    </>
 }
