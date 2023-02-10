@@ -57,14 +57,9 @@ input {
 
 .headerContainer {
     color: white;
-    padding: 1em 1em 0.5em;
 }
 .headerContainer h1 {
     font-weight: 400;
-}
-
-.searchContainer {
-    padding: 0 1em 1em;
 }
 
 .results {
@@ -123,4 +118,6 @@ select, button {
 .topContainer {
     background-color: #074C61;
     border-radius: 1em;
+
+    padding: 1.5em 1em;
 }
