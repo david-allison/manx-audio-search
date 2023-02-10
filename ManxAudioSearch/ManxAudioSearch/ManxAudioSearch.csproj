@@ -29,6 +29,9 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Content Include="ClientApp\public\audio\**">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
       <Folder Include="ClientApp\public\audio" />
       <Folder Include="Resources" />
     </ItemGroup>
