@@ -37,6 +37,8 @@ public class AudioController : ControllerBase
         var buff = br.ReadBytes((int)numBytes);
                
         
-        return File(buff, "audio/mpeg", $"{name}.mp3");
+        var file = File(buff, "audio/mpeg", $"{name}.mp3");
+        file.EnableRangeProcessing = true;
+        return file;
     }
 }
