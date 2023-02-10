@@ -102,8 +102,8 @@ select, button {
 }
 
 .home-audio {
-    height: 100px;
-    padding: 10px;
+    height: 70px;
+    padding: 10px 10px 0px;
     /** change color: https://codepen.io/sosuke/pen/Pjoqqp . Note:  filter is not stable */
     /** #83A6B0 */
     filter: invert(69%) sepia(13%) saturate(561%) hue-rotate(147deg) brightness(90%) contrast(92%);
