@@ -30,7 +30,7 @@ export const AudioPlayer = (props) => {
     }, [clicked])
     
     return (<>
-        {clicked && <audio preload={"metadata"} ref={ref}>
+        {clicked && <audio preload={"metadata"} ref={ref} key={props.fileName}>
             <source src={`/audio/${props.fileName}`}/>
         </audio>}
         <img style={{height: "1em"}} src={require("../assets/images/volume-high.png")} onClick={onClick}/>
