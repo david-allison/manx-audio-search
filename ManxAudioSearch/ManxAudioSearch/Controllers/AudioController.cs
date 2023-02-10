@@ -29,7 +29,7 @@ public class AudioController : ControllerBase
             throw new InvalidOperationException("Possible path traversal");
         }
         
-        var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "publish", "wwwroot", "audio", name + ".mp3");
+        var path = Path.Combine(AudioService.AudioFilesDir, name + ".mp3");
         using var fs = new FileStream(path, FileMode.Open, FileAccess.Read);
                
         var br = new BinaryReader(fs);

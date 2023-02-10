@@ -25,12 +25,11 @@ public class AudioService
     
     public List<AudioFile> Files => _audioFiles.ToList();
 
+    public static readonly string AudioFilesDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "audio");
+
     public static AudioService CreateInstance()
     {
-        // requires `dotnet publish`
-        var audioFilesDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "audio");
-        
-        var audioPaths = Directory.GetFiles(audioFilesDir, "*.mp3", SearchOption.AllDirectories).ToList();
+        var audioPaths = Directory.GetFiles(AudioFilesDir, "*.mp3", SearchOption.AllDirectories).ToList();
 
         var metadataDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AudioData");
         
