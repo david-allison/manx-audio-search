@@ -35,15 +35,15 @@ public class SearchController
             .ToLookup(x => Utils.NormaliseAlternate(x, query), x => _audioService.GetFilesContainingWord(x))
             .ToDictionary(x => x.Key, x => x.SelectMany(u => u).ToList())
             .Select(x => new SearchResult(x.Key,
-                _translationService.ToEnglish(x.Key).ToArray(),
-                x.Value.Select(z => new AudioFile(z.FileNameNoExtension, z.Transcription)).ToArray()))
+                _translationService.ToEnglish(x.Key).OrderByDescending(x => x.Length).ToArray(), // order by length to get the closest to the search first
+                x.Value.Select(z => new AudioFile(z.FileNameNoExtension, z.Transcription))
+                    .OrderBy(x => x.Transcription.Length).ToArray()))
             .ToList();
 
         // if we have results, don't send "river", which has 0 to the client
         if (results.SelectMany(x => x.Files).Any())
         {
             results = results.Where(x => x.Files.Length > 0).ToList();
-            // TODO: Order so if we get an exact match it comes first
         }
                 
         return new SearchResultList(results);
