@@ -83,7 +83,7 @@ export const Home = () => {
                         }} onInput={onSearchTextChange} placeholder={placeHolder} />
                         <button style={{marginLeft: 10}} onClick={onSearch} aria-label="Search">
                             <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="8.78439" cy="8.78436" r="6" stroke="#074C61" stroke-width="3" ></circle>
+                                <circle cx="8.78439" cy="8.78436" r="6" stroke="#074C61" strokeWidth="3" ></circle>
                                 <rect x="11.3459" y="13.4158" width="3" height="8.80485" rx="1.5" transform="rotate(-45 11.3459 13.4158)" fill="#074C61"></rect>
                             </svg>
                         </button>
